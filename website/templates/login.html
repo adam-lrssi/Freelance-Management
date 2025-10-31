@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <h1 class="text-center mb-4">Connexion</h1>
+            <div class="card p-4">
+                <form action="#" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Adresse e-mail</label>
+                        <input type="email" class="form-control" id="email" name="email" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="password" name="password" >
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Se connecter</button>
+                    </div>
+                </form>
+                <p class="text-center mt-3">Pas de compte ? <a class="text-decoration-none text-blue" href="/authentification/register">Créer un compte</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

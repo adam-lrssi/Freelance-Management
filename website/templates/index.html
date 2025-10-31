@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - Freelink{% endblock %}
+
+
+{% block head_extra %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Bienvenue sur Freelink</h1>
+    <p class="hero-subtitle">Freelink vous permet de gérer à la perfection votre freelance dans tous les domaines.</p>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+  <div class="features-container">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h2 class="feature-title">Gestion des Missions</h2>
+        <p class="feature-description">Ajoutez des missions sur votre tableau de bord pour une organisation parfaite et suivez l'avancement de vos projets pour vos clients.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h2 class="feature-title">Communication Directe</h2>
+        <p class="feature-description">Discutez directement avec vos clients pour obtenir toutes les informations nécessaires sur vos missions en temps réel.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h2 class="feature-title">Tableau de Bord</h2>
+        <p class="feature-description">Visualisez et gérez tous vos projets depuis une interface intuitive et moderne, adaptée à votre workflow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

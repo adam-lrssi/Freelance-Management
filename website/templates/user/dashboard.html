@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de bord de {{ user.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Missions qui vous sont assignées</h1>
+    <p>Gérez les missions que vous avez acceptées de vos clients.</p>
+    
+    <hr class="mt-4">
+
+    <h2 class="mb-3">Liste des missions</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Date limite</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mission in missions %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ mission.title }}</td>
+                    <td>{{ mission.deadline.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ mission.client.name }}</td>
+                    <td>
+                        {% if mission.status == 'Terminée' %}
+                            <span class="badge bg-success">{{ mission.status }}</span>
+                        {% elif mission.status == 'En cours' %}
+                            <span class="badge bg-warning text-dark">{{ mission.status }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">{{ mission.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-warning" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#updateStatusModal"
+                            data-mission-id="{{ mission.id }}">
+                            Mettre à jour
+                        </button>
+                        <form method="POST" action="{{ url_for('site.delete_mission', mission_id=mission.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette mission ?');">
+                                Supprimer
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">
+                        Vous n'avez pas encore de missions assignées.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ----------------------------------------------------------------------------------------------------------------- -->
+<!-- ----------------------------------------MODIFIER LE STATUS DE LA MISSION-------------------------------------------------------- -->
+<!-- ----------------------------------------------------------------------------------------------------------------- -->
+
+<div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="updateStatusForm" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateStatusModalLabel">Mettre à jour le statut</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div action="#" id="status" class="mb-3">
+                        <label for="status-select" class="form-label">Sélectionnez le nouveau statut :</label>
+                        <select class="form-select" id="status-select" name="status">
+                            <option value="En attente">En attente</option>
+                            <option value="En cours">En cours</option>
+                            <option value="Terminée">Terminée</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Ajouter une mission MODAL !! -->
+
+<div class="modal fade" id="addMissionModal" tabindex="-1" aria-labelledby="addMissionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ url_for('site.add_mission') }}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMissionModalLabel">Créer une nouvelle mission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Titre</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deadline" class="form-label">Date limite</label>
+                        <input type="date" class="form-control" id="deadline" name="deadline" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="client_id" class="form-label">Sélectionner un client</label>
+                        <select class="form-select" id="client_id" name="client_id" required>
+                            {% for client in clients %}
+                            <option value="{{ client.id }}">{{ client.name }} ({{ client.email }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Créer la mission</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<!-- Modifier Mission Modal  -->
+<div class="modal fade" id="editMissionModal" tabindex="-1" aria-labelledby="editMissionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editMissionForm" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editMissionModalLabel">Modifier une mission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit-title" class="form-label">Titre</label>
+                        <input type="text" class="form-control" id="edit-title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-description" class="form-label">Description</label>
+                        <textarea class="form-control" id="edit-description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-deadline" class="form-label">Date limite</label>
+                        <input type="date" class="form-control" id="edit-deadline" name="deadline" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODIFIER LE STATUS DE LA MISSIONS  -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const updateStatusModal = document.getElementById('updateStatusModal');
+        // 💡 UTILISEZ JINJA POUR AVOIR LE CHEMIN CORRECT JUSQU'À L'ID
+        // On récupère le préfixe de la route '/update-mission-status/'
+        const updateStatusUrlBase = "{{ url_for('site.update_mission_status', mission_id=0) }}"; 
+        
+        updateStatusModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const missionId = button.getAttribute('data-mission-id');
+            const form = updateStatusModal.querySelector('#updateStatusForm');
+            
+            // 💡 CORRECTION: Remplace le "0" factice par le vrai ID de mission
+            // Cela garantit que le préfixe du blueprint est inclus si nécessaire.
+            form.action = updateStatusUrlBase.replace('0', missionId);
+        });
+    });
+</script>
+
+{% endblock %}

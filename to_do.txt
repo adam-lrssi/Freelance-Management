@@ -1,0 +1,5 @@
+- faire le dashboard, jsp quoi mettre a voir -> prendre inspi sur internet
+
+- faire la modification du profile 
+
+- faire un user admin 

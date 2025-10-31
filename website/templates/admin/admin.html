@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de bord de l'administration{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <h1 class="text-center mb-4">Tableau de bord de l'administration</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group" id="admin-nav">
+                <a href="#" class="list-group-item list-group-item-action active" data-target="dashboard-content">
+                    Vue d'ensemble
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-target="users-content">
+                    Gérer les utilisateurs
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-target="stats-content">
+                    Signalements
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-target="settings-content">
+                    Paramètres
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div id="dashboard-content" class="admin-content-section">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Vue d'ensemble du site</h5>
+                        <p class="card-text">
+                            Bienvenue dans le panneau d'administration. Vous pouvez ici gérer les utilisateurs,
+                            afficher les statistiques et contrôler les paramètres de votre application.
+                        </p>
+                        <div class="d-flex gap-2 ">
+                            <div class="col-md-4">
+                                <div class="card text-white bg-primary mb-3">
+                                    <div class="card-header">Utilisateurs inscrits</div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">{{ total_users }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card text-white bg-danger mb-3">
+                                    <div class="card-header">Utilisateurs Admin</div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">{{ total_admin }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-4">
+                                <div class="card text-white bg-primary mb-3">
+                                    <div class="card-header">Utilisateurs inscrits</div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">{{ total_users }}</h4>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="users-content" class="admin-content-section" style="display: none;">
+                <h2>Gérer les utilisateurs</h2>
+                <p>Liste des utilisateurs et options de gestion.</p>
+                <div class="table-users">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom d'utilisateur</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Administrateur</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <th scope="row">{{ user.id }}</th>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    {% if user.admin %}
+                                        <span class="badge bg-success">Oui</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Non</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-primary">Modifier</a>
+                                    <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="stats-content" class="admin-content-section" style="display: none;">
+                <h2>Signalement</h2>
+                <p>Ici vous retrouverez les signalement fait par les utilisateurs.</p>
+            </div>
+
+            <div id="settings-content" class="admin-content-section" style="display: none;">
+                <h2>Paramètres</h2>
+                <p>Options de configuration du site.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
