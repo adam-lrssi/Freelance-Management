@@ -2,10 +2,19 @@
 
 {% block title %}Tableau de bord de {{ user.name }}{% endblock %}
 
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_mission.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
+<div class="section-container container mt-4">
     <h1>Missions qui vous sont assignées</h1>
     <p>Gérez les missions que vous avez acceptées de vos clients.</p>
+
+    <button class="add-mission"> 
+        Nouvelle Mission
+        <span class="plus-icon">+</span>
+    </button>
     
     <hr class="mt-4">
 
@@ -14,7 +23,6 @@
         <table class="table table-striped table-hover">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Titre</th>
                     <th scope="col">Date limite</th>
                     <th scope="col">Client</th>
@@ -25,7 +33,6 @@
             <tbody>
                 {% for mission in missions %}
                 <tr>
-                    <th scope="row">{{ loop.index }}</th>
                     <td>{{ mission.title }}</td>
                     <td>{{ mission.deadline.strftime('%d-%m-%Y') }}</td>
                     <td>{{ mission.client.name }}</td>
@@ -185,6 +192,38 @@
             form.action = updateStatusUrlBase.replace('0', missionId);
         });
     });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Ouvrir le modal quand on clique sur le bouton "Nouvelle Mission"
+    const addButton = document.querySelector('.add-mission');
+    addButton.addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('addMissionModal'));
+        modal.show();
+    });
+
+    // Validation du formulaire
+    const addMissionForm = document.querySelector('#addMissionModal form');
+    addMissionForm.addEventListener('submit', function(e) {
+        const title = document.querySelector('#title').value;
+        const deadline = document.querySelector('#deadline').value;
+        const clientId = document.querySelector('#client_id').value;
+
+        if (!title || !deadline || !clientId) {
+            e.preventDefault();
+            alert('Veuillez remplir tous les champs requis');
+        }
+        
+        // Valider que la date n'est pas dans le passé
+        const selectedDate = new Date(deadline);
+        const today = new Date();
+        if (selectedDate < today) {
+            e.preventDefault();
+            alert('La date limite ne peut pas être dans le passé');
+        }
+    });
+});
 </script>
 
 {% endblock %}

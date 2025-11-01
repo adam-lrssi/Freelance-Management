@@ -1,0 +1,135 @@
+  :root{
+    /* Couleurs configurables */
+    --bg: #f8fafc;
+    --nav-bg: #ffffff;
+    --nav-accent: #f1f5f9;
+    --nav-text: #0f172a;
+    --primary: #2563eb;      /* bouton principal */
+    --accent: #06b6d4;       /* accent secondaire */
+    --muted: #64748b;
+    --footer-bg: #071029;
+    --footer-text: #cbd5e1;
+    --footer-accent: rgba(255,255,255,0.04);
+  }
+
+  /* Corps */
+  body {
+    background-color: var(--bg);
+    color: var(--nav-text);
+    -webkit-font-smoothing:antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Navbar moderne */
+  .navbar {
+    background: linear-gradient(90deg, var(--nav-bg), var(--nav-accent));
+    box-shadow: 0 6px 20px rgba(16,24,40,0.06);
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid rgba(16,24,40,0.04);
+    backdrop-filter: blur(6px);
+  }
+
+  .navbar .container-fluid { 
+    gap: 0.5rem;
+
+
+  }
+
+  .navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    color: var(--primary) !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  /* petit logo carré avant le nom (purement visuel) */
+
+
+  .navbar-nav .nav-link {
+    color: var(--nav-text);
+    margin: 0 0.15rem;
+    padding: 0.42rem 0.6rem;
+    border-radius: 6px;
+    transition: all 160ms ease;
+    font-weight: 500;
+  }
+
+  .navbar-nav .nav-link:hover {
+    background: var(--nav-accent);
+    color: var(--primary);
+    box-shadow: 0 4px 16px rgba(37,99,235,0.1);
+    text-decoration: none;
+  } 
+
+  /* Boutons dans la navbar */
+  .navbar-nav .btn {
+    border-radius: 10px;
+    font-size: 0. ninerem;
+    background: var(--primary);
+    color: #fff;
+    transition: all 160ms ease;
+  }
+
+  .navbar .btn-primary {
+    background: var(--primary);
+    border: none;
+    box-shadow: 0 8px 28px rgba(37,99,235,0.12);
+    padding: 0.45rem 0.9rem;
+    font-weight: 600;
+  }
+
+  .navbar .btn-secondary {
+    background: var(--primary);
+    color: white;
+    border: 1px solid rgba(16,24,40,0.06);
+    padding: 0.42rem 0.8rem;
+  }
+
+  .navbar-toggler {
+    border: 1px solid rgba(16,24,40,0.06);
+    width: 44px;
+    height: 40px;
+  }
+
+  /* mobile collapse styling */
+  .navbar-collapse {
+    backdrop-filter: blur(6px);
+  }
+
+  /* Footer moderne */
+  .footer {
+    background: linear-gradient(180deg, var(--footer-bg), #031022);
+    color: var(--footer-text);
+    padding: 2rem 1rem;
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--footer-accent);
+    width: 100vw;
+  }
+
+  .footer p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--footer-text);
+  }
+
+  .footer a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 140ms ease;
+  }
+
+  .footer a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  /* petites améliorations responsive */
+  @media (max-width: 767px) {
+    .navbar .nav-link { padding: 0.6rem 0.8rem; }
+    .navbar-brand::before { width:28px; height:28px; }
+    .footer { text-align: center; padding: 1.6rem 0.8rem; }
+  }
+
+  

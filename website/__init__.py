@@ -27,14 +27,12 @@ def create_app():
     from .site import site 
     from .profile import profile 
     from .admin import admin
-    from .chat import chat
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/authentification')
     app.register_blueprint(site, url_prefix='/dashboard')
     app.register_blueprint(profile, url_prefix='/profile')
     app.register_blueprint(admin, url_prefix='/admin') 
-    app.register_blueprint(chat, url_prefix='/chat')
 
     # It is good practice to call create_database within the app_context
     with app.app_context():

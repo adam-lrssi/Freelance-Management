@@ -27,10 +27,10 @@ def dashboard():
 @site.route('/client-dashboard')
 @login_required
 def client_dashboard():
-    # Ici, vous pourriez lister les missions du client.
     client_missions = Missions.query.filter_by(user_id=current_user.id).all()
-    
-    return render_template('user/client_dashboard.html', user=current_user, missions=client_missions)
+    current_time = datetime.now()  # Utilisez datetime comme prévu
+
+    return render_template('user/client_dashboard.html', user=current_user, missions=client_missions, now=current_time)
 
 
 @site.route('/add-mission', methods=['POST'])

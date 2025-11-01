@@ -1,0 +1,123 @@
+.container-about {
+    display: grid;
+    /* Mise en page en deux colonnes (Texte et Image/Stats) */
+    grid-template-columns: 1fr 1fr; 
+    max-width: 1400px; /* Largeur maximale pour un affichage sur grand écran */
+    margin: 4rem auto;
+    gap: 3rem; /* Espace entre les deux colonnes */
+    padding: 0 2rem;
+    box-sizing: border-box;
+}
+
+/* Les deux sections doivent avoir la même hauteur (alignement) */
+.text-section, .card-section {
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --- SECTION DE TEXTE (Colonne de gauche) --- */
+
+.text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrer verticalement le contenu */
+}
+
+.header-section p {
+    /* Style du texte "How It Started" / "Le commencement" */
+    color: var(--color-accent-orange);
+    font-size: 1rem;
+    font-weight: 600; /* Semi-gras */
+    margin-bottom: 0.5rem;
+}
+
+.title-section h2 {
+    /* Style du titre principal "Our Dream is..." / "Un fardeau devenu un plaisir" */
+    font-size: 3rem;
+    font-weight: 800; /* Extra gras */
+    line-height: 1.1;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: var(--color-text-dark);
+}
+
+.paragraph p {
+    /* Style du paragraphe long */
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-text-light-gray); /* Gris léger comme dans l'image */
+    margin-bottom: 0;
+}
+
+/* --- SECTION CARDS ET IMAGE (Colonne de droite) --- */
+
+.card-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.image {
+    /* Pour s'assurer que l'image remplit l'espace */
+    width: 100%;
+    /* L'image doit avoir un coin arrondi pour simuler l'originale */
+    overflow: hidden; 
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+}
+
+.image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* Supprimer les attributs width et height du tag img si vous utilisez ce CSS */
+    object-fit: cover;
+}
+
+/* Mise en page des 4 cartes (Wrapper) */
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes par rangée */
+    gap: 1.5rem;
+    padding-top: 0.5rem;
+}
+
+.card {
+    /* Style de chaque carte individuelle */
+    background-color: var(--color-card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    /* Bordure subtile pour délimiter les cartes */
+    border: 1px solid var(--color-border-light); 
+    /* Coin arrondi + ombre subtile comme dans l'image */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); 
+}
+
+.title-card {
+    /* Le grand chiffre (3.5, 23, etc.) */
+    font-size: 2.2rem;
+    font-weight: 800; 
+    color: var(--color-text-dark);
+    line-height: 1.1;
+    margin: 0 0 0.2rem 0;
+}
+
+.description-card {
+    /* Le texte de description */
+    font-size: 1rem;
+    color: var(--color-text-light-gray);
+    margin: 0;
+}
+
+/* --- RESPONSIVE (Mise en page sur une seule colonne pour les petits écrans) --- */
+@media (max-width: 992px) {
+    .container-about {
+        grid-template-columns: 1fr; /* Une seule colonne */
+        padding: 1rem;
+        margin: 2rem auto;
+    }
+    
+    .title-section h2 {
+        font-size: 2.5rem;
+    }
+}

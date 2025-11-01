@@ -1,4 +1,5 @@
 # Fichier : website/models.py
+import datetime
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
@@ -32,3 +33,28 @@ class Missions(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) 
     # Le freelance qui a créé la mission
     freelance_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+class Conversation(db.Model):
+    __tablename__ = 'conversations'
+    id = db.Column(db.Integer, primary_key=True)
+    freelance_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    client_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=func.now())  # Changed this line
+    
+    # Relations
+    messages = db.relationship('Message', backref='conversation', lazy=True)
+    freelance = db.relationship('User', foreign_keys=[freelance_id])
+    client = db.relationship('User', foreign_keys=[client_id])
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    content = db.Column(db.String(1000), nullable=False)
+    timestamp = db.Column(db.DateTime, default=func.now())
+    is_read = db.Column(db.Boolean, default=False)
+    # Add the conversation foreign key
+    conversation_id = db.Column(db.Integer, db.ForeignKey('conversations.id'), nullable=False)
+
+    sender = db.relationship('User', foreign_keys=[sender_id])
+    receiver = db.relationship('User', foreign_keys=[receiver_id])

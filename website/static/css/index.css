@@ -28,6 +28,11 @@ body {
   background: linear-gradient(135deg, var(--background-color) 0%, #F8F9FA 100%);
   padding: 4rem 0;
   margin-bottom: 3rem;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
 }
 
 .hero-content {
