@@ -28,7 +28,9 @@
    ```
 2. **Set up Environnement Variables:**
    > Create an venv ```bash python -m venv venv```
+   > <br>
    > Install requierements ```bash pip install requirements.txt```
+   > <br>
    > Run the project ```bash python main.py```
 
 
