@@ -24,7 +24,7 @@
 1. **Clone the repository**
    ```bash
    git clone httsp://github.com/adam-lrssi/python-app.git
-   cd python-app
+   cd freelance-management
    ```
 2. **Set up Environnement Variables:**
    > Create an venv ```bash python -m venv venv```
